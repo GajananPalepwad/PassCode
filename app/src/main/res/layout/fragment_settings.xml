@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="25dp"
+    android:orientation="vertical"
+    tools:context=".ui.home.SettingsFragment">
+
+    <TextView
+        android:id="@+id/btnProfile"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_vertical"
+        android:text="@string/profile"
+        android:drawableEnd="@drawable/arrow_next_ic"
+        android:textColor="@color/black"
+        android:textSize="19sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_vertical"
+        android:text="@string/permissions"
+        android:drawableEnd="@drawable/arrow_next_ic"
+        android:textColor="@color/black"
+        android:textSize="19sp" />
+
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins"
+            android:gravity="center_vertical"
+            android:text="@string/sync"
+            android:textColor="@color/black"
+            android:textSize="19sp" />
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_vertical"
+        android:text="@string/autofill"
+        android:textColor="@color/black"
+        android:textSize="19sp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_vertical"
+        android:text="@string/about"
+        android:drawableEnd="@drawable/arrow_next_ic"
+        android:textColor="@color/black"
+        android:textSize="19sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/poppins"
+        android:gravity="center_vertical"
+        android:text="@string/help"
+        android:drawableEnd="@drawable/arrow_next_ic"
+        android:textColor="@color/black"
+        android:textSize="19sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/version"
+            android:textColor="@color/black"
+            android:textSize="19sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins"
+            android:gravity="center_vertical"
+            android:text="1.4.7"
+            android:textColor="#707070"
+            android:textSize="19sp" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

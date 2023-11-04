@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="profile_items">
+        <item>Steve’s team</item>
+        <item>Shubham’s team</item>
+        <item>Gajanan’s team</item>
+        <item>Sushil’s team</item>
+        <item>Sanika’s team</item>
+    </array>
+
+    <array name="web_app_items">
+        <item>website or app name</item>
+        <item>Google</item>
+        <item>Instagram</item>
+        <item>X</item>
+        <item>Facebook</item>
+        <item>LinkedIn</item>
+    </array>
+
+</resources>
