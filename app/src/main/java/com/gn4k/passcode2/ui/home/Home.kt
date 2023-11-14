@@ -70,6 +70,7 @@ class Home : AppCompatActivity() {
 
         btnNewRecord.setOnClickListener {
             val intent = Intent(applicationContext, Other::class.java)
+            intent.putExtra("key", "New")
             startActivity(intent)
         }
 

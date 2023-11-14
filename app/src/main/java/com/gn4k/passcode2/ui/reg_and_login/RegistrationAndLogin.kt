@@ -1,5 +1,6 @@
 package com.gn4k.passcode2.ui.reg_and_login
 
+import java.util.Base64
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -45,7 +46,27 @@ class RegistrationAndLogin : AppCompatActivity() {
 
             val intent = Intent(applicationContext, Password::class.java )
             intent.putExtra("key", whichFragment)
-            startActivity( intent )
+            if(whichFragment.equals("reg")){
+                intent.putExtra("firstName", Registration.edFirstName.text.toString())
+                intent.putExtra("lastName", Registration.edLastName.text.toString())
+                intent.putExtra("email", Registration.edEmail.text.toString())
+
+                if(!Registration.edFirstName.text.toString().isEmpty() && !Registration.edLastName.text.toString().isEmpty() && !Registration.edLastName.text.toString().isEmpty()) {
+                    startActivity( intent )
+                }else{
+                    Toast.makeText(applicationContext, "Fill the all fields", Toast.LENGTH_SHORT).show()
+                }
+
+            } else if(whichFragment.equals("log")){
+                intent.putExtra("email", Login.edEmail.text.toString())
+
+                if(!Login.edEmail.text.toString().isEmpty()){
+                    startActivity( intent )
+                }else{
+                    Toast.makeText(applicationContext, "Fill the all fields", Toast.LENGTH_SHORT).show()
+                }
+
+            }
 
         }
 
@@ -89,7 +110,7 @@ class RegistrationAndLogin : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finish() // This will close the current activity and return to the previous one.
+        finish()
     }
 
 

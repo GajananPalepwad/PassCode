@@ -15,7 +15,7 @@
     <string name="email">Email</string>
     <string name="last_name">Last name</string>
     <string name="first_name">First name</string>
-    <string name="confirm_master_password">Confirm master Password</string>
+    <string name="confirm_master_password">Confirm Master Password</string>
     <string name="enter_email_id">Enter Email ID</string>
     <string name="personal_details">Personal details</string>
     <string name="home">Home</string>
@@ -58,4 +58,14 @@
     <string name="change_password">Change password</string>
     <string name="copy_password">Copy password</string>
     <string name="version">Version</string>
+    <string name="about_the_app">About the App</string>
+    <string name="our_mission">Our Mission</string>
+    <string name="key_features">Key Features</string>
+    <string name="meet_the_team">Meet the Team</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="privacy_and_security">Privacy and Security</string>
+    <string name="join_us_on_social_media">Join Us on Social Media</string>
+    <string name="work_steve_gmail_com">work.steve@gmail.com</string>
+    <string name="use_another_account">Use Another Account</string>
+    <string name="enter_master_password">Enter master password</string>
 </resources>
