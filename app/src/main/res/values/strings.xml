@@ -68,4 +68,5 @@
     <string name="work_steve_gmail_com">work.steve@gmail.com</string>
     <string name="use_another_account">Use Another Account</string>
     <string name="enter_master_password">Enter master password</string>
+    <string name="category">Category</string>
 </resources>

@@ -10,7 +10,6 @@ import android.widget.Toast
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.User
 import com.gn4k.passcode2.ui.home.Home
-import com.gn4k.passcode2.ui.reg_and_login.Registration
 import com.gn4k.passcode2.ui.reg_and_login.RegistrationAndLogin
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -211,7 +210,6 @@ class Password : AppCompatActivity() {
     fun loadLocalData() : String{
         val sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
         val id = sharedPreferences.getString("userName", null).toString()
-
         return id
     }
 
@@ -225,7 +223,6 @@ class Password : AppCompatActivity() {
         workData["Work"] = "null"
         workData["Entertainment"] = "null"
         workData["Social"] = "null"
-        workData["Other"] = "null"
         passwordRef.child("password").setValue(workData)
     }
 

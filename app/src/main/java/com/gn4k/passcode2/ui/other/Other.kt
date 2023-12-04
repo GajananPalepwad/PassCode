@@ -54,4 +54,5 @@ class Other : AppCompatActivity() {
         finish() // This will close the current activity and return to the previous one.
     }
 
+
 }
