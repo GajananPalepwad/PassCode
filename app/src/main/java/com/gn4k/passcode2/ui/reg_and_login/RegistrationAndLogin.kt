@@ -52,7 +52,7 @@ class RegistrationAndLogin : AppCompatActivity() {
                 intent.putExtra("email", Registration.edEmail.text.toString())
 
                 if(!Registration.edFirstName.text.toString().isEmpty() && !Registration.edLastName.text.toString().isEmpty() && !Registration.edLastName.text.toString().isEmpty()) {
-                    startActivity( intent )
+                    startActivity(intent)
                 }else{
                     Toast.makeText(applicationContext, "Fill the all fields", Toast.LENGTH_SHORT).show()
                 }

@@ -42,6 +42,8 @@ class CategoryAdapter(private val categoryList: List<String>, private val contex
     fun fetchPsswordList(catogery : String, rv : RecyclerView, item : LinearLayout){
 
         val list: MutableList<PassData> = mutableListOf()
+        val keylist: MutableList<String> = mutableListOf()
+
 
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
         val reference: DatabaseReference = database.reference
@@ -53,18 +55,22 @@ class CategoryAdapter(private val categoryList: List<String>, private val contex
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 list.clear()
+                keylist.clear()
 
                 for (itemSnapshot in snapshot.children) {
                     val passData: PassData? = itemSnapshot.getValue(PassData::class.java)
                     if (passData != null) {
                         list.add(passData)
+                        itemSnapshot.key?.let { keylist.add(it) }
                     }
                 }
+
+//                Toast.makeText(context, ""+keylist, Toast.LENGTH_SHORT).show()
 
 //                Toast.makeText(context, ""+list, Toast.LENGTH_SHORT).show()
 
                 val layoutManager = LinearLayoutManager(context)
-                val adapter = PassDataAdapter(list) // Assuming you have a list of PassData
+                val adapter = PassDataAdapter(catogery, keylist, list, context)
                 rv.layoutManager = layoutManager
                 rv.adapter = adapter
 

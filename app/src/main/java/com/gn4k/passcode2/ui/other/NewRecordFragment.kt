@@ -4,7 +4,10 @@ import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +16,12 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.gn4k.passcode2.R
 import com.google.android.material.slider.Slider
@@ -45,6 +50,9 @@ class NewRecordFragment : Fragment() {
     lateinit var passStrongness: ProgressBar
     lateinit var btnGeneratePassword: Button
     lateinit var btnSaveData: Button
+    lateinit var checkName: ImageView
+    lateinit var checkUid: ImageView
+    lateinit var checkCategory: ImageView
 
     var nameList = mutableListOf<String>()
 
@@ -64,8 +72,11 @@ class NewRecordFragment : Fragment() {
         view1 = inflater.inflate(R.layout.fragment_new_record, container, false)
 
         isLowerCase = view1.findViewById(R.id.isLowerCase)
+
         isNumber = view1.findViewById(R.id.isNumber)
+
         isSymbols = view1.findViewById(R.id.isSymbols)
+
         isUpperCase = view1.findViewById(R.id.isUpperCase)
 
         spinnerCategory = view1.findViewById(R.id.spinnerCategory)
@@ -82,6 +93,11 @@ class NewRecordFragment : Fragment() {
 
         btnSaveData = view1.findViewById(R.id.saveData)
 
+        checkName = view1.findViewById(R.id.checkName)
+
+        checkCategory = view1.findViewById(R.id.checkCategory)
+
+        checkUid = view1.findViewById(R.id.checkUid)
 
         val slider = view1.findViewById<Slider>(R.id.numberPicker)
         tvLetterCount = view1.findViewById(R.id.tvLetterCount)
@@ -90,6 +106,7 @@ class NewRecordFragment : Fragment() {
             val count =  value.toInt()
             tvLetterCount.text = count.toString()
         }
+
 
         nameList = mutableListOf<String>().apply {
             val webAppItems = resources.getStringArray(R.array.web_app_items)
@@ -150,9 +167,23 @@ class NewRecordFragment : Fragment() {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                 // Handle the selected item if needed
                 val selectedCategory = categoryList[position]
-                Toast.makeText(context, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
                 if (selectedCategory.equals("Other")){
                     startCategoryDialog()
+                }
+
+                if (selectedCategory != "choose category"){
+                    val color = context?.let { ContextCompat.getColor(it, R.color.green) }
+
+                    if (color != null) {
+                        checkCategory.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                    }
+                } else {
+                    val color = context?.let { ContextCompat.getColor(it, R.color.grey) }
+
+                    if (color != null) {
+                        checkCategory.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                    }
                 }
             }
 
@@ -165,9 +196,23 @@ class NewRecordFragment : Fragment() {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                 // Handle the selected item if needed
                 val selectedName = spinnerName.selectedItem
-                Toast.makeText(context, "Selected: $selectedName", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "Selected: $selectedName", Toast.LENGTH_SHORT).show()
                 if (selectedName.equals("Other")){
                     startNameDialog()
+                }
+
+                if (selectedName != "website or app name"){
+                    val color = context?.let { ContextCompat.getColor(it, R.color.green) }
+
+                    if (color != null) {
+                        checkName.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                    }
+                } else {
+                    val color = context?.let { ContextCompat.getColor(it, R.color.grey) }
+
+                    if (color != null) {
+                        checkName.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                    }
                 }
             }
 
@@ -175,6 +220,30 @@ class NewRecordFragment : Fragment() {
                 // Do nothing here
             }
         }
+
+        edId.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                val charCount = s?.length ?: 0
+                if (charCount != 0){
+                    val color = context?.let { ContextCompat.getColor(it, R.color.green) }
+
+                    if (color != null) {
+                        checkUid.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                    }
+                } else {
+                    val color = context?.let { ContextCompat.getColor(it, R.color.grey) }
+
+                    if (color != null) {
+                        checkUid.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                    }
+                }
+            }
+        })
 
         btnSaveData.setOnClickListener { sendPassToDB() }
 
@@ -347,6 +416,7 @@ class NewRecordFragment : Fragment() {
                 val passwordMapType = object : GenericTypeIndicator<Map<String, Any>>() {}
                 val passwordMap = snapshot.getValue(passwordMapType)
                 if (passwordMap != null) {
+                    categoryList.add("choose category")
 
                     // Iterate through the top-level children
                     for (categorySnapshot in snapshot.children) {

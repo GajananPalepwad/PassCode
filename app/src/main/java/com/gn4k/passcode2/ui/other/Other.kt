@@ -1,5 +1,6 @@
 package com.gn4k.passcode2.ui.other
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -33,6 +34,13 @@ class Other : AppCompatActivity() {
             setFragment(AboutFragment(), "About")
         } else if (whichFragment.equals("Profile")){
             setFragment(ProfileFragment(), "Profile")
+        } else if (whichFragment.equals("PassDetails")){
+            detailName = intent.getStringExtra("name").toString()
+            detailId = intent.getStringExtra("id").toString()
+            detailPass = intent.getStringExtra("pass").toString()
+            detailKey = intent.getStringExtra("password_child_key").toString()
+            detailCategory = intent.getStringExtra("category").toString()
+            setFragment(PasswordDetailsFragment(), "Back")
         }
 
 
@@ -52,6 +60,15 @@ class Other : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish() // This will close the current activity and return to the previous one.
+    }
+
+    companion object{
+        lateinit var detailName: String
+        lateinit var detailId: String
+        lateinit var detailPass: String
+        lateinit var detailKey: String
+        lateinit var detailCategory: String
+
     }
 
 

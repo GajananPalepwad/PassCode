@@ -44,6 +44,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/checkName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -81,6 +82,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/checkCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -120,6 +122,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/checkUid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
