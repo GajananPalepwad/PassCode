@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:scrollbars="none"
     android:orientation="vertical"
     tools:context=".ui.home.AnalysisFragment">
 
@@ -20,7 +21,7 @@
         android:layout_gravity="center_horizontal">
 
         <ProgressBar
-            android:id="@+id/progress"
+            android:id="@+id/progressSecured"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="130dp"
             android:layout_height="130dp"
@@ -33,6 +34,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvSecuredNumber"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -42,14 +44,15 @@
             android:text="70%"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/progress"
+            app:layout_constraintBottom_toBottomOf="@+id/progressSecured"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/progress" />
+            app:layout_constraintTop_toTopOf="@+id/progressSecured" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/tvSecured"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -83,25 +86,25 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tvRisk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:fontFamily="@font/poppins"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:text="8"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:fontFamily="@font/poppins"
                 android:gravity="center_horizontal"
                 android:text="@string/risk"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
 
         </LinearLayout>
@@ -118,25 +121,25 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tvWeak"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:fontFamily="@font/poppins"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:text="12"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:text="0"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:fontFamily="@font/poppins"
                 android:gravity="center_horizontal"
                 android:text="@string/weak"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
 
         </LinearLayout>
@@ -153,12 +156,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tvSafe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:fontFamily="@font/poppins"
+                android:textStyle="bold"
                 android:gravity="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="82"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -171,7 +175,7 @@
                 android:gravity="center"
                 android:text="Safe"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
 
         </LinearLayout>
@@ -209,8 +213,9 @@
         android:id="@+id/rcAnalysis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
         tools:itemCount="6"
-        tools:listitem="@layout/item_password"/>
+        tools:listitem="@layout/item_security"/>
     </LinearLayout>
 
 </ScrollView>

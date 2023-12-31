@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.PassData
+import com.gn4k.passcode2.ui.home.Home
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -61,7 +62,10 @@ class CategoryAdapter(private val categoryList: List<String>, private val contex
                     val passData: PassData? = itemSnapshot.getValue(PassData::class.java)
                     if (passData != null) {
                         list.add(passData)
+                        Home.allPassList.add(passData)
                         itemSnapshot.key?.let { keylist.add(it) }
+                        itemSnapshot.key?.let { Home.allPassKey.add(it) }
+                        Home.allCategory.add(catogery)
                     }
                 }
 

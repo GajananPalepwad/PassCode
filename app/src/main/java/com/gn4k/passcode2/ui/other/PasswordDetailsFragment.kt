@@ -20,6 +20,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import com.gn4k.passcode2.R
+import com.gn4k.passcode2.data.BrandData
 import com.gn4k.passcode2.ui.reg_and_login.password.Password
 import com.google.android.material.slider.Slider
 import com.google.firebase.database.DatabaseReference
@@ -37,7 +38,7 @@ class PasswordDetailsFragment : Fragment() {
     lateinit var tvId: TextView
     lateinit var tvId2: TextView
     lateinit var tvPassword: TextView
-
+    lateinit var imgLogo: ImageView
     lateinit var btnCopy: Button
     lateinit var btnChangePassword: Button
     lateinit var btnDelete: ImageView
@@ -56,6 +57,7 @@ class PasswordDetailsFragment : Fragment() {
         btnCopy = view1.findViewById(R.id.btnCopyPass)
         btnChangePassword = view1.findViewById(R.id.btnChangePass)
         btnDelete = view1.findViewById(R.id.btnDelete)
+        imgLogo = view1.findViewById(R.id.imgLogo)
 
         SetUI()
 
@@ -86,10 +88,12 @@ class PasswordDetailsFragment : Fragment() {
 
     fun SetUI(){
 
+        val brandData = BrandData()
         tvPassword.text = Other.detailPass
         tvName.text = Other.detailName
         tvId.text = Other.detailId
         tvId2.text = Other.detailId
+        imgLogo.setImageResource(brandData.logoArray[Other.logoIndex.toInt()]);
 
     }
 

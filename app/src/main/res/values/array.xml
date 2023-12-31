@@ -10,7 +10,6 @@
 
     <array name="web_app_items">
         <item>website or app name</item>
-        <item>1Password</item>
         <item>Adobe Creative Cloud</item>
         <item>Airbnb</item>
         <item>Amazon</item>
@@ -26,7 +25,6 @@
         <item>GitHub</item>
         <item>Google</item>
         <item>Instagram</item>
-        <item>LastPass</item>
         <item>LinkedIn</item>
         <item>Meetup</item>
         <item>Microsoft</item>
@@ -47,7 +45,6 @@
         <item>Udemy</item>
         <item>Uber</item>
         <item>Vimeo</item>
-        <item>WhatsApp</item>
         <item>X</item>
         <item>Yelp</item>
         <item>Zoom</item>

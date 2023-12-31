@@ -1,28 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    android:layout_marginHorizontal="25dp"
     tools:context=".ui.home.SearchFragment">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:elevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="0dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:elevation="0dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatEditText"
+                tools:itemCount="15"
+                tools:layout_editor_absoluteX="25dp"
+                tools:listitem="@layout/item_search_password" />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
     <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/appCompatEditText"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:paddingHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        android:drawableEnd="@drawable/search_ic"
-        android:textColorHint="@color/black"
         android:background="@drawable/search_box_bg"
-        android:hint="@string/search_here"/>
+        android:drawableEnd="@drawable/search_ic"
+        android:hint="@string/search_here"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="25dp"
+        android:paddingHorizontal="10dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvEntertainment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:itemCount="15"
-        tools:listitem="@layout/item_search_password"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

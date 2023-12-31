@@ -40,6 +40,8 @@ class Other : AppCompatActivity() {
             detailPass = intent.getStringExtra("pass").toString()
             detailKey = intent.getStringExtra("password_child_key").toString()
             detailCategory = intent.getStringExtra("category").toString()
+            logoIndex = intent.getStringExtra("logoIndex").toString()
+
             setFragment(PasswordDetailsFragment(), "Back")
         }
 
@@ -68,7 +70,7 @@ class Other : AppCompatActivity() {
         lateinit var detailPass: String
         lateinit var detailKey: String
         lateinit var detailCategory: String
-
+        lateinit var logoIndex: String
     }
 
 

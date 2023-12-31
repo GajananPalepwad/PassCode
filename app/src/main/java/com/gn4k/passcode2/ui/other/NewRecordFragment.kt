@@ -24,6 +24,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.gn4k.passcode2.R
+import com.gn4k.passcode2.data.BrandData
 import com.google.android.material.slider.Slider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,13 +32,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import java.util.Base64
+import kotlin.properties.Delegates
 import kotlin.random.Random
+
 
 class NewRecordFragment : Fragment() {
 
 
     lateinit var view1 : View
-
     lateinit var tvLetterCount: TextView
     lateinit var isLowerCase: CheckBox
     lateinit var isNumber: CheckBox
@@ -53,6 +55,7 @@ class NewRecordFragment : Fragment() {
     lateinit var checkName: ImageView
     lateinit var checkUid: ImageView
     lateinit var checkCategory: ImageView
+    var logoIndex by Delegates.notNull<Int>()
 
     var nameList = mutableListOf<String>()
 
@@ -63,6 +66,8 @@ class NewRecordFragment : Fragment() {
     var Number = false
     var Symbols = false
     var UpperCase = false
+
+    lateinit var brandData: BrandData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,6 +104,10 @@ class NewRecordFragment : Fragment() {
 
         checkUid = view1.findViewById(R.id.checkUid)
 
+        brandData = BrandData()
+
+        logoIndex = brandData.logoArray.size - 1
+
         val slider = view1.findViewById<Slider>(R.id.numberPicker)
         tvLetterCount = view1.findViewById(R.id.tvLetterCount)
 
@@ -107,6 +116,7 @@ class NewRecordFragment : Fragment() {
             tvLetterCount.text = count.toString()
         }
 
+        var hexBackgroundColor = "#1CFF00"
 
         nameList = mutableListOf<String>().apply {
             val webAppItems = resources.getStringArray(R.array.web_app_items)
@@ -118,6 +128,8 @@ class NewRecordFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
         spinnerName.adapter = adapter
+
+        var passStrongNumber = 0
 
         btnGeneratePassword.setOnClickListener {
 
@@ -142,11 +154,11 @@ class NewRecordFragment : Fragment() {
                 Toast.makeText(context, "Atleast choose one category", Toast.LENGTH_SHORT).show()
             }
 
-            var passStrongNumber = calculatePasswordStrength(generatedPass)
+            passStrongNumber = calculatePasswordStrength(generatedPass)
 
             passStrongness.progress = passStrongNumber
 
-            var hexBackgroundColor = "#1CFF00"
+
 
             when {
                 passStrongNumber >= 66 -> hexBackgroundColor = "#1CFF00"
@@ -161,6 +173,32 @@ class NewRecordFragment : Fragment() {
             }
 
         }
+
+        edPassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {
+                // This method is called to notify you that characters within `charSequence` are about to be replaced with new text
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+                // This method is called to notify you that characters within `charSequence` have been replaced with new text
+
+                passStrongNumber = calculatePasswordStrength(edPassword.text.toString())
+
+                when {
+                    passStrongNumber >= 66 -> hexBackgroundColor = "#1CFF00"
+                    passStrongNumber in 33 until 66 -> hexBackgroundColor = "#FFFB00"
+                    passStrongNumber < 33 -> hexBackgroundColor = "#FF0000"
+                }
+
+                passStrongness.progressTintList = ColorStateList.valueOf(Color.parseColor(hexBackgroundColor))
+                passStrongness.progress = passStrongNumber
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                // This method is called to notify you that the characters within `editable` have been changed
+                val password = editable.toString()
+            }
+        })
 
 
         spinnerCategory.onItemSelectedListener = object :  AdapterView.OnItemSelectedListener {
@@ -196,6 +234,10 @@ class NewRecordFragment : Fragment() {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
                 // Handle the selected item if needed
                 val selectedName = spinnerName.selectedItem
+
+                if(position>0){
+                    logoIndex = position - 1
+                }
 //                Toast.makeText(context, "Selected: $selectedName", Toast.LENGTH_SHORT).show()
                 if (selectedName.equals("Other")){
                     startNameDialog()
@@ -261,6 +303,7 @@ class NewRecordFragment : Fragment() {
             // Create a Map to represent your data
             val userData = mapOf(
                 "name" to spinnerName.selectedItem.toString(),
+                "logoIndex" to logoIndex.toString(),
                 "userId" to edId.text.toString(),
                 "password" to encodedPass
             )

@@ -38,8 +38,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getCategoryList() {
-        val databaseReference = FirebaseDatabase.getInstance().reference
 
+        Home.allPassList.clear()
+        Home.allCategory.clear()
+        Home.allPassKey.clear()
+        val databaseReference = FirebaseDatabase.getInstance().reference
         // Reference to the specific node you want to retrieve children from
         val userNodeReference = databaseReference.child("users").child(loadLocalData())
 

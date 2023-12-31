@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.gn4k.passcode2.R
+import com.gn4k.passcode2.data.BrandData
 import com.gn4k.passcode2.data.PassData
 import com.gn4k.passcode2.ui.other.Other
 import java.util.Base64
@@ -29,7 +30,7 @@ class PassDataAdapter(private val category: String, private val keyList: List<St
         val textViewId: TextView = itemView.findViewById(R.id.tvId)
         val item: LinearLayout = itemView.findViewById(R.id.item)
         val btnCopyPass: ImageView = itemView.findViewById(R.id.btnCopyPass)
-
+        val imgLogo: ImageView = itemView.findViewById(R.id.imgLogo)
         // Add more TextViews for other properties if needed
     }
 
@@ -40,8 +41,10 @@ class PassDataAdapter(private val category: String, private val keyList: List<St
 
     override fun onBindViewHolder(holder: PassDataViewHolder, position: Int) {
         val passData = passDataList[position]
+        val brandData = BrandData()
         holder.textViewName.text = passData.name
         holder.textViewId.text = passData.userId
+        holder.imgLogo.setImageResource(brandData.logoArray[passData.logoIndex.toInt()]);
 
         val decodedBytes = Base64.getDecoder().decode(passData.password)
         val decodedPass = String(decodedBytes, Charsets.UTF_8)
@@ -55,6 +58,7 @@ class PassDataAdapter(private val category: String, private val keyList: List<St
             intent.putExtra("id", passData.userId)
             intent.putExtra("password_child_key", keyList[position])
             intent.putExtra("category", category)
+            intent.putExtra("logoIndex", passData.logoIndex)
 
             context.startActivity(intent)
         }
