@@ -159,6 +159,8 @@ class Password : AppCompatActivity() {
 
                     if(decodedPass.equals(password)){
                         saveInLocal(id)
+                        Home.name = user?.firstName + " " + user?.lastName
+                        Home.email = user?.email.toString()
                         intent = Intent(applicationContext, Home::class.java)
                         startActivity(intent)
                     } else {

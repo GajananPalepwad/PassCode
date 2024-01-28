@@ -2,6 +2,7 @@ package com.gn4k.passcode2.ui.other
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -25,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.BrandData
+import com.gn4k.passcode2.ui.home.Home
 import com.google.android.material.slider.Slider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -293,6 +295,7 @@ class NewRecordFragment : Fragment() {
         return view1
     }
 
+
     fun sendPassToDB() {
 
         if (!edId.text.toString().isEmpty() && !edPassword.text.toString().isEmpty()) {
@@ -313,8 +316,9 @@ class NewRecordFragment : Fragment() {
             if (key != null) {
                 myRef.child(key).setValue(userData)
             }
-
             Toast.makeText(context, "Password Saved Successfully", Toast.LENGTH_SHORT).show()
+            activity?.onBackPressed();
+
         } else {
             Toast.makeText(context, "Fill all Fields", Toast.LENGTH_SHORT).show()
         }

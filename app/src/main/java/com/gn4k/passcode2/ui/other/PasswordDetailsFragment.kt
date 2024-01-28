@@ -81,6 +81,8 @@ class PasswordDetailsFragment : Fragment() {
                 .child(Other.detailCategory)
                 .child(Other.detailKey)
             reference.removeValue()
+            sendPassToDeleted()
+            activity?.onBackPressed();
         }
 
         return view1
@@ -102,6 +104,31 @@ class PasswordDetailsFragment : Fragment() {
         val id = sharedPreferences?.getString("userName", null).toString()
         return id
     }
+
+    fun sendPassToDeleted() {
+
+            // Get a reference to the database
+            val database = FirebaseDatabase.getInstance()
+            val myRef = database.getReference("users").child(loadLocalData()).child("deletedPassword").child(Other.detailCategory)
+            val encodedPass = Base64.getEncoder().encodeToString(Other.detailPass.toByteArray())
+            // Create a Map to represent your data
+            val userData = mapOf(
+                "name" to Other.detailName,
+                "logoIndex" to Other.logoIndex,
+                "userId" to Other.detailId,
+                "password" to encodedPass
+            )
+
+            // Push the data to the database
+            val key = myRef.push().key
+            if (key != null) {
+                myRef.child(key).setValue(userData)
+            }
+            Toast.makeText(context, "Password Moved to Recycle Bin Successfully", Toast.LENGTH_SHORT).show()
+            activity?.onBackPressed();
+
+    }
+
 
     fun changePasswordDialog() {
         val dialog = context?.let { Dialog(it, R.style.AppBottomSheetDialogTheme) }
@@ -209,6 +236,7 @@ class PasswordDetailsFragment : Fragment() {
 
                 // Push the data to the database
                 myRef.updateChildren(userData)
+                SetUI()
                 dialog.cancel()
             }
         }

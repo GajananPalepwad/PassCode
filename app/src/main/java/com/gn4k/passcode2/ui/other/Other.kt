@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.gn4k.passcode2.R
+import com.gn4k.passcode2.data.PassData
 import com.gn4k.passcode2.ui.profile.ProfileFragment
 
 class Other : AppCompatActivity() {
@@ -71,7 +72,15 @@ class Other : AppCompatActivity() {
         lateinit var detailKey: String
         lateinit var detailCategory: String
         lateinit var logoIndex: String
+
+        val allPassList: MutableList<PassData> = mutableListOf()
+        val allPassKey: MutableList<String> = mutableListOf()
+        val allCategory: MutableList<String> = mutableListOf()
+
+
     }
+
+
 
 
 }

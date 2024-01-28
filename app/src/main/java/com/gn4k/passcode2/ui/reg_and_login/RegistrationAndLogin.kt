@@ -58,8 +58,8 @@ class RegistrationAndLogin : AppCompatActivity() {
                 }
 
             } else if(whichFragment.equals("log")){
-                intent.putExtra("email", Login.edEmail.text.toString())
 
+                intent.putExtra("email", Login.edEmail.text.toString())
                 if(!Login.edEmail.text.toString().isEmpty()){
                     startActivity( intent )
                 }else{

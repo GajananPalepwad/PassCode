@@ -1,52 +1,49 @@
-package com.gn4k.passcode2.ui.home
+package com.gn4k.passcode2.ui.other
 
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.adapter.CategoryAdapter
+import com.gn4k.passcode2.adapter.RecyclerBinCategoryAdapter
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 
-class HomeFragment : Fragment() {
+class RecyclerBin : AppCompatActivity() {
 
-    lateinit var view1: View
     val categoryList = mutableListOf<String>()
     lateinit var recyclerView: RecyclerView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_recycler_bin)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        view1 = inflater.inflate(R.layout.fragment_home, container, false)
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener {onBackPressed()}
+
+
         getCategoryList();
-        recyclerView = view1.findViewById(R.id.rvList)
-        val layoutManager = LinearLayoutManager(requireContext())
+        recyclerView = findViewById(R.id.rvList)
+        val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        return view1
     }
 
     private fun getCategoryList() {
 
-        Home.allPassList.clear()
-        Home.allCategory.clear()
-        Home.allPassKey.clear()
+        Other.allPassList.clear()
+        Other.allCategory.clear()
+        Other.allPassKey.clear()
         val databaseReference = FirebaseDatabase.getInstance().reference
         // Reference to the specific node you want to retrieve children from
         val userNodeReference = databaseReference.child("users").child(loadLocalData())
 
 
-        userNodeReference.child("password").addListenerForSingleValueEvent(object :
+        userNodeReference.child("deletedPassword").addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Handle data change
@@ -59,7 +56,7 @@ class HomeFragment : Fragment() {
                         val categoryKey = categorySnapshot.key
                         categoryList.add(categoryKey ?: "")
                     }
-                    val adapter = context?.let { CategoryAdapter(categoryList, it) }
+                    val adapter = RecyclerBinCategoryAdapter(categoryList, applicationContext)
 
                     recyclerView.adapter = adapter
 
@@ -75,12 +72,9 @@ class HomeFragment : Fragment() {
 
     fun loadLocalData() : String{
 
-        val sharedPreferences = context?.getSharedPreferences("login", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
         val id = sharedPreferences?.getString("userName", null).toString()
         return id
     }
 
-    companion object {
-
-    }
 }
