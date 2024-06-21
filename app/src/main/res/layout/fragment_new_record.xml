@@ -11,12 +11,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4 out of 5 Password Storage is used from FREE plan."
+            android:textStyle="bold"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="2dp"
+            android:textColor="#FF0000"
+            android:background="#FAC4C4"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
@@ -56,6 +67,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
             android:orientation="horizontal">
 
             <TextView
@@ -94,6 +106,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
             android:orientation="horizontal">
 
             <TextView
@@ -135,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#D1D1D1"
+            android:layout_marginHorizontal="25dp"
             android:layout_marginTop="15dp"/>
 
         <TextView
@@ -151,6 +165,7 @@
             android:id="@+id/edPassword"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginHorizontal="25dp"
             android:paddingHorizontal="10dp"
             android:hint="@string/password"
             android:background="@drawable/textview_round_boarder"/>
@@ -160,7 +175,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-6dp"
-            android:layout_marginHorizontal="3dp"
+            android:layout_marginHorizontal="28dp"
             android:progressTint="#FF0000"
             android:max="100"
             android:progress="0"
@@ -170,6 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="25dp"
             android:orientation="horizontal">
 
             <TextView
@@ -215,6 +231,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
             android:orientation="horizontal">
 
             <TextView
@@ -255,6 +272,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
             android:orientation="horizontal">
 
             <TextView
@@ -295,6 +313,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="25dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -308,7 +327,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:paddingHorizontal="10dp"
-                android:text="@string/regenerate"
+                android:text="@string/generate"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="16sp" />

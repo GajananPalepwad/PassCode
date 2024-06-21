@@ -1,4 +1,4 @@
-package com.gn4k.passcode2.ui.other
+package com.gn4k.passcode2.ui.home.settings
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

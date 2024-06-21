@@ -12,8 +12,8 @@ android {
         applicationId = "com.gn4k.passcode2"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,10 +43,14 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation ("io.github.chaosleung:pinview:1.4.4")
-//    implementation ("com.kyleduo.switchbutton:library:2.1.0")
+
+    implementation ("com.google.android.gms:play-services-ads:22.6.0")
+
+    implementation ("com.android.billingclient:billing:6.1.0")
 }

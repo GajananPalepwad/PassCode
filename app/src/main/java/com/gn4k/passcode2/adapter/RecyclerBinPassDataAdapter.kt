@@ -1,9 +1,5 @@
 package com.gn4k.passcode2.adapter
 
-import android.R.attr.label
-import android.R.attr.text
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -13,12 +9,15 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.BrandData
 import com.gn4k.passcode2.data.PassData
-import com.gn4k.passcode2.ui.other.Other
+import com.gn4k.passcode2.ui.home.settings.Premium
+import com.gn4k.passcode2.ui.home.Home
+import com.gn4k.passcode2.ui.profile.RecyclerBin
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import java.util.Base64
 
 
@@ -29,13 +28,13 @@ class RecyclerBinPassDataAdapter(private val category: String, private val keyLi
         val textViewName: TextView = itemView.findViewById(R.id.tvname)
         val textViewId: TextView = itemView.findViewById(R.id.tvId)
         val item: LinearLayout = itemView.findViewById(R.id.item)
-        val btnCopyPass: ImageView = itemView.findViewById(R.id.btnCopyPass)
+        val btnRestorPass: ImageView = itemView.findViewById(R.id.btnDeletePass)
         val imgLogo: ImageView = itemView.findViewById(R.id.imgLogo)
         // Add more TextViews for other properties if needed
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PassDataViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_password, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_recycle_bin_password, parent, false)
         return PassDataViewHolder(view)
     }
 
@@ -49,29 +48,71 @@ class RecyclerBinPassDataAdapter(private val category: String, private val keyLi
         val decodedBytes = Base64.getDecoder().decode(passData.password)
         val decodedPass = String(decodedBytes, Charsets.UTF_8)
 
-        holder.item.setOnClickListener {
 
-            val intent = Intent(context, Other::class.java)
-            intent.putExtra("key", "PassDetails")
-            intent.putExtra("name", passData.name)
-            intent.putExtra("pass", decodedPass)
-            intent.putExtra("id", passData.userId)
-            intent.putExtra("password_child_key", keyList[position])
-            intent.putExtra("category", category)
-            intent.putExtra("logoIndex", passData.logoIndex)
-
-            context.startActivity(intent)
-        }
-
-        holder.btnCopyPass.setOnClickListener {
-            val clipboardManager: ClipboardManager =
-                context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("Copied Text", decodedPass)
-            clipboardManager.setPrimaryClip(clipData)
-
+        holder.btnRestorPass.setOnClickListener {
+            RecyclerBin.pro.visibility = View.VISIBLE
+            if(Home.isSubscribe) {
+                val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+                val reference: DatabaseReference = database.reference
+                    .child("users")
+                    .child(loadLocalData())
+                    .child("deletedPassword")
+                    .child(category)
+                    .child(keyList[position])
+                reference.removeValue()
+                sendPassToDB(
+                    category,
+                    decodedPass,
+                    passData.name,
+                    passData.logoIndex,
+                    passData.userId
+                )
+            }else{
+                val intent = Intent(context, Premium::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                context.startActivity(intent)
+                RecyclerBin.pro.visibility = View.GONE
+            }
         }
 
     }
+
+    private fun sendPassToDB(category: String, pass: String, name: String, logoIndex: String, useId: String, ) {
+
+        // Get a reference to the database
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("users").child(loadLocalData()).child("password").child(category)
+        val encodedPass = Base64.getEncoder().encodeToString(pass.toByteArray())
+        // Create a Map to represent your data
+        val userData = mapOf(
+            "name" to name,
+            "logoIndex" to logoIndex,
+            "userId" to useId,
+            "password" to encodedPass
+        )
+
+        // Push the data to the database
+        val key = myRef.push().key
+        if (key != null) {
+            myRef.child(key).setValue(userData).addOnSuccessListener {
+                Toast.makeText(context, "Password Recovered Successfully", Toast.LENGTH_SHORT).show()
+                RecyclerBin.pro.visibility = View.GONE
+            }.addOnFailureListener{
+                Toast.makeText(context, "Something went WRONG!", Toast.LENGTH_SHORT).show()
+                RecyclerBin.pro.visibility = View.GONE
+            }
+        }
+
+
+    }
+
+    fun loadLocalData() : String{
+        val sharedPreferences = context?.getSharedPreferences("login", Context.MODE_PRIVATE)
+        val id = sharedPreferences?.getString("userName", null).toString()
+        return id
+    }
+
 
     override fun getItemCount(): Int {
         return passDataList.size

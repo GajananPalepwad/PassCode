@@ -1,14 +1,16 @@
-package com.gn4k.passcode2.ui.other
+package com.gn4k.passcode2.ui.profile
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gn4k.passcode2.R
-import com.gn4k.passcode2.adapter.CategoryAdapter
 import com.gn4k.passcode2.adapter.RecyclerBinCategoryAdapter
+import com.gn4k.passcode2.ui.other.Other
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -25,6 +27,8 @@ class RecyclerBin : AppCompatActivity() {
 
         val btnBack = findViewById<ImageView>(R.id.btnBack)
         btnBack.setOnClickListener {onBackPressed()}
+
+        pro = findViewById(R.id.pro)
 
 
         getCategoryList();
@@ -59,13 +63,13 @@ class RecyclerBin : AppCompatActivity() {
                     val adapter = RecyclerBinCategoryAdapter(categoryList, applicationContext)
 
                     recyclerView.adapter = adapter
-
                 }
+                pro.visibility = View.GONE
 
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle errors
+                pro.visibility = View.GONE
             }
         })
     }
@@ -75,6 +79,10 @@ class RecyclerBin : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE)
         val id = sharedPreferences?.getString("userName", null).toString()
         return id
+    }
+
+    companion object{
+        lateinit var pro : ProgressBar;
     }
 
 }

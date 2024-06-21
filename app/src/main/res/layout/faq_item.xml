@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/black"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardElevation="0dp"
+    app:cardCornerRadius="15dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp"
+        android:layout_margin="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:paddingStart="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvQuestion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:text="Q. Why I am not able to see verified profiles in free membership?"
+                    android:fontFamily="@font/poppins"/>
+
+                <ImageView
+                    android:id="@+id/btnShowHide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/down_ic"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvAns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:text="A. Why I am not able to see verified profiles in free membership Why I am not able to see verified profiles in free membership Why I am not able to see verified profiles in free membership Why I am not able to see verified profiles in free membership."
+                android:fontFamily="@font/poppins"/>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.cardview.widget.CardView>

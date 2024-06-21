@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.BrandData
+import com.gn4k.passcode2.ui.home.settings.Premium
 import com.gn4k.passcode2.ui.home.Home
 import com.google.android.material.slider.Slider
 import com.google.firebase.database.DataSnapshot
@@ -57,6 +58,7 @@ class NewRecordFragment : Fragment() {
     lateinit var checkName: ImageView
     lateinit var checkUid: ImageView
     lateinit var checkCategory: ImageView
+    lateinit var tvWarning: TextView
     var logoIndex by Delegates.notNull<Int>()
 
     var nameList = mutableListOf<String>()
@@ -77,6 +79,8 @@ class NewRecordFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         view1 = inflater.inflate(R.layout.fragment_new_record, container, false)
+
+        tvWarning = view1.findViewById(R.id.tvWarning)
 
         isLowerCase = view1.findViewById(R.id.isLowerCase)
 
@@ -289,7 +293,24 @@ class NewRecordFragment : Fragment() {
             }
         })
 
-        btnSaveData.setOnClickListener { sendPassToDB() }
+        btnSaveData.setOnClickListener {
+            if(Home.isSubscribe) {
+                sendPassToDB()
+            }else{
+                if(Home.allPassList.size<=5){
+                    sendPassToDB()
+                }else{
+                    val intent = Intent(context, Premium::class.java)
+                    context?.startActivity(intent)
+                }
+            }
+        }
+
+        if (Home.isSubscribe){
+            tvWarning.visibility = View.GONE
+        } else {
+            tvWarning.text = "${Home.allPassList.size} out of 5 Password Storage is used from FREE plan."
+        }
 
         getCategoryList()
         return view1
@@ -297,6 +318,8 @@ class NewRecordFragment : Fragment() {
 
 
     fun sendPassToDB() {
+
+        Other.pro.visibility = View.VISIBLE
 
         if (!edId.text.toString().isEmpty() && !edPassword.text.toString().isEmpty()) {
             // Get a reference to the database
@@ -314,13 +337,18 @@ class NewRecordFragment : Fragment() {
             // Push the data to the database
             val key = myRef.push().key
             if (key != null) {
-                myRef.child(key).setValue(userData)
+                myRef.child(key).setValue(userData).addOnSuccessListener {
+                    Other.pro.visibility = View.GONE
+                }.addOnFailureListener {
+                    Other.pro.visibility = View.GONE
+                }
             }
             Toast.makeText(context, "Password Saved Successfully", Toast.LENGTH_SHORT).show()
             activity?.onBackPressed();
 
         } else {
             Toast.makeText(context, "Fill all Fields", Toast.LENGTH_SHORT).show()
+            Other.pro.visibility = View.GONE
         }
     }
 
@@ -373,9 +401,9 @@ class NewRecordFragment : Fragment() {
         val dialog = context?.let { Dialog(it, R.style.AppBottomSheetDialogTheme) }
         dialog?.setContentView(R.layout.add_new_category)
 
-        val save : Button? = dialog?.findViewById(R.id.sendBtn);
-        val edCategory : EditText? = dialog?.findViewById(R.id.edCategory);
-        val cancel : Button? = dialog?.findViewById(R.id.cancelBtn);
+        val save : Button? = dialog?.findViewById(R.id.sendBtn)
+        val edCategory : EditText? = dialog?.findViewById(R.id.edCategory)
+        val cancel : Button? = dialog?.findViewById(R.id.cancelBtn)
 
         if (save != null) {
             save.setOnClickListener {
@@ -435,9 +463,7 @@ class NewRecordFragment : Fragment() {
                     val position = (spinnerName.adapter as ArrayAdapter<String>).getPosition(category)
                     spinnerName.setSelection(position)
 
-                    // Clear the EditText for the next input
                 }
-//                spinnerCategory.setSelection(categoryList.size-1)
                 dialog.cancel()
             }
         }

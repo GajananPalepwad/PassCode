@@ -1,4 +1,4 @@
-package com.gn4k.passcode2.ui.home
+package com.gn4k.passcode2.ui.home.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -23,8 +23,11 @@ class SettingsFragment : Fragment() {
         // Inflate the layout for this fragment
         view1 = inflater.inflate(R.layout.fragment_settings, container, false)
         val btnProfile = view1.findViewById<TextView>(R.id.btnProfile)
+        val btnPremium = view1.findViewById<TextView>(R.id.btnPremium)
         val btnAbout = view1.findViewById<TextView>(R.id.btnAbout)
+        val btnHelp = view1.findViewById<TextView>(R.id.btnHelp)
         val tvVersionName = view1.findViewById<TextView>(R.id.tvVersionName)
+
 
         val pInfo = requireContext().packageManager.getPackageInfo(
             requireContext().packageName, 0
@@ -38,9 +41,20 @@ class SettingsFragment : Fragment() {
             startActivity( intent )
         }
 
+        btnHelp.setOnClickListener {
+            val intent = Intent(activity, Other::class.java )
+            intent.putExtra("key", "Help")
+            startActivity( intent )
+        }
+
         btnProfile.setOnClickListener {
             val intent = Intent(activity, Other::class.java )
             intent.putExtra("key", "Profile")
+            startActivity( intent )
+        }
+
+        btnPremium.setOnClickListener {
+            val intent = Intent(activity, Premium::class.java )
             startActivity( intent )
         }
 

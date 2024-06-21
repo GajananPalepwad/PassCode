@@ -1,13 +1,15 @@
 package com.gn4k.passcode2.ui.other
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ContentValues
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +18,23 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.BrandData
-import com.gn4k.passcode2.ui.reg_and_login.password.Password
+import com.gn4k.passcode2.ui.home.Home
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.OnUserEarnedRewardListener
+import com.google.android.gms.ads.initialization.InitializationStatus
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.material.slider.Slider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -47,8 +60,20 @@ class PasswordDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         view1 = inflater.inflate(R.layout.fragment_password_details, container, false)
+
+        context?.let {
+            MobileAds.initialize(it, object : OnInitializationCompleteListener {
+                override fun onInitializationComplete(initializationStatus: InitializationStatus) {
+//                    Toast.makeText(this, " successful ", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+
+        val mAdView: AdView
+        mAdView = view1.findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         tvName = view1.findViewById(R.id.tvName)
         tvPassword = view1.findViewById(R.id.tvPassword)
@@ -62,10 +87,53 @@ class PasswordDetailsFragment : Fragment() {
         SetUI()
 
         btnCopy.setOnClickListener {
-            val clipboardManager: ClipboardManager =
-                context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("Copied Text", Other.detailPass)
-            clipboardManager.setPrimaryClip(clipData)
+
+            Home.rewardedAd?.let { ad ->
+                ad.show(context as Activity, OnUserEarnedRewardListener { rewardItem ->
+                    // Handle the reward.
+                    val rewardAmount = rewardItem.amount
+                    val rewardType = rewardItem.type
+                    Log.d(ContentValues.TAG, "User earned the reward.")
+                })
+
+                Home.rewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                    override fun onAdClicked() {
+                        // Called when a click is recorded for an ad.
+                        Log.d(ContentValues.TAG, "Ad was clicked.")
+                    }
+
+                    override fun onAdDismissedFullScreenContent() {
+
+                        val clipboardManager: ClipboardManager =
+                            context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clipData = ClipData.newPlainText("Copied Text", Other.detailPass)
+                        clipboardManager.setPrimaryClip(clipData)
+                        loadReward()
+                    }
+
+                    override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                        // Called when ad fails to show.
+                        Home.rewardedAd = null
+                    }
+
+                    override fun onAdImpression() {
+                        // Called when an impression is recorded for an ad.
+                        Log.d(ContentValues.TAG, "Ad recorded an impression.")
+                    }
+
+                    override fun onAdShowedFullScreenContent() {
+                        // Called when ad is shown.
+                        Log.d(ContentValues.TAG, "Ad showed fullscreen content.")
+                    }
+                }
+
+            } ?: run {
+
+                val clipboardManager: ClipboardManager =
+                    context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("Copied Text", Other.detailPass)
+                clipboardManager.setPrimaryClip(clipData)
+            }
         }
 
         btnChangePassword.setOnClickListener {
@@ -247,6 +315,22 @@ class PasswordDetailsFragment : Fragment() {
 
         dialog?.setCancelable(true)
         dialog?.show()
+    }
+
+    fun loadReward() {
+
+        val adRequest = AdRequest.Builder().build()
+        context?.let {
+            RewardedAd.load(it, getString(R.string.full_screen_ad_key) + Home.stopAd, adRequest, object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Home.rewardedAd = null
+                }
+
+                override fun onAdLoaded(ad: RewardedAd) {
+                    Home.rewardedAd = ad
+                }
+            })
+        }
     }
 
     fun generatePassword(

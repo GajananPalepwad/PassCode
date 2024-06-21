@@ -1,9 +1,12 @@
 package com.gn4k.passcode2.adapter
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +17,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.BrandData
 import com.gn4k.passcode2.data.PassData
+import com.gn4k.passcode2.ui.home.Home
 import com.gn4k.passcode2.ui.other.Other
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.OnUserEarnedRewardListener
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import java.util.Base64
 
 class SearchAdapter(
@@ -62,11 +73,67 @@ class SearchAdapter(
         }
 
         holder.btnCopyPass.setOnClickListener {
-            val clipboardManager: ClipboardManager =
-                context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("Copied Text", decodedPass)
-            clipboardManager.setPrimaryClip(clipData)
+
+            Home.rewardedAd?.let { ad ->
+                ad.show(context as Activity, OnUserEarnedRewardListener { rewardItem ->
+                    // Handle the reward.
+                    val rewardAmount = rewardItem.amount
+                    val rewardType = rewardItem.type
+                    Log.d(ContentValues.TAG, "User earned the reward.")
+                })
+
+                Home.rewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                    override fun onAdClicked() {
+                        // Called when a click is recorded for an ad.
+                        Log.d(ContentValues.TAG, "Ad was clicked.")
+                    }
+
+                    override fun onAdDismissedFullScreenContent() {
+                        val clipboardManager: ClipboardManager =
+                            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clipData = ClipData.newPlainText("Copied Text", decodedPass)
+                        clipboardManager.setPrimaryClip(clipData)
+                        loadReward() 
+                    }
+
+                    override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                        // Called when ad fails to show.
+                        Home.rewardedAd = null
+                    }
+
+                    override fun onAdImpression() {
+                        // Called when an impression is recorded for an ad.
+                        Log.d(ContentValues.TAG, "Ad recorded an impression.")
+                    }
+
+                    override fun onAdShowedFullScreenContent() {
+                        // Called when ad is shown.
+                        Log.d(ContentValues.TAG, "Ad showed fullscreen content.")
+                    }
+                }
+
+            } ?: run {
+                val clipboardManager: ClipboardManager =
+                    context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("Copied Text", decodedPass)
+                clipboardManager.setPrimaryClip(clipData)
+            }
+
+
         }
+    }
+
+    fun loadReward() {
+        var adRequest = AdRequest.Builder().build()
+        RewardedAd.load(context, context.getString(R.string.full_screen_ad_key) + Home.stopAd, adRequest, object : RewardedAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Home.rewardedAd = null
+            }
+
+            override fun onAdLoaded(ad: RewardedAd) {
+                Home.rewardedAd = ad
+            }
+        })
     }
 
     override fun getItemCount(): Int {

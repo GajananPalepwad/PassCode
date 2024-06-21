@@ -29,6 +29,8 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         view1 = inflater.inflate(R.layout.fragment_home, container, false)
+        Home.pro.visibility = View.VISIBLE
+
         getCategoryList();
         recyclerView = view1.findViewById(R.id.rvList)
         val layoutManager = LinearLayoutManager(requireContext())
@@ -62,6 +64,7 @@ class HomeFragment : Fragment() {
                     val adapter = context?.let { CategoryAdapter(categoryList, it) }
 
                     recyclerView.adapter = adapter
+                    Home.pro.visibility = View.GONE
 
                 }
 
@@ -74,7 +77,6 @@ class HomeFragment : Fragment() {
     }
 
     fun loadLocalData() : String{
-
         val sharedPreferences = context?.getSharedPreferences("login", Context.MODE_PRIVATE)
         val id = sharedPreferences?.getString("userName", null).toString()
         return id

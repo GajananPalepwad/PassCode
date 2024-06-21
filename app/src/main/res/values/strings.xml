@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">PassCode</string>
+
+
+    <string name="full_screen_ad_key">ca-app-pub-9690208356370050/3001485085</string>
+    <string name="native_ad_key">ca-app-pub-9690208356370050/5070913520</string>
+    <string name="banner_ad_key">ca-app-pub-9690208356370050/6168334780</string>
+
+
     <string name="register">Register</string>
     <string name="already_have_an_account">Already have an account</string>
     <string name="control_your_security">Control your security</string>
@@ -70,4 +77,14 @@
     <string name="enter_master_password">Enter master password</string>
     <string name="category">Category</string>
     <string name="cancel">Cancel</string>
+    <string name="recycle_bin">Recycle Bin</string>
+    <string name="logged_in_devices">Logged in devices</string>
+    <string name="premium">Premium</string>
+    <string name="generate">Generate</string>
+    <string name="old_master_password">Old Master Password</string>
+    <string name="new_master_password">New Master Password</string>
+    <string name="_0000">0000</string>
+    <string name="confirm_new_master_password">Confirm New Master Password</string>
+    <string name="new_confirm_master_password">New Confirm Master Password</string>
+    <string name="change_master_password">Change Master Password</string>
 </resources>

@@ -1,13 +1,16 @@
 package com.gn4k.passcode2.ui.other
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.gn4k.passcode2.R
 import com.gn4k.passcode2.data.PassData
+import com.gn4k.passcode2.ui.home.Home
+import com.gn4k.passcode2.ui.home.settings.AboutFragment
+import com.gn4k.passcode2.ui.home.settings.HelpFragment
 import com.gn4k.passcode2.ui.profile.ProfileFragment
 
 class Other : AppCompatActivity() {
@@ -21,13 +24,16 @@ class Other : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_other)
 
+
+        pro = findViewById(R.id.pro)
+
         val btnBack = findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener {onBackPressed()}
 
         val whichFragment = intent.getStringExtra("key").toString()
 
         tvHeader = findViewById(R.id.tvHeader)
 
-        btnBack.setOnClickListener {onBackPressed()}
 
         if(whichFragment.equals("New")){
             setFragment(NewRecordFragment(), "New record")
@@ -35,6 +41,8 @@ class Other : AppCompatActivity() {
             setFragment(AboutFragment(), "About")
         } else if (whichFragment.equals("Profile")){
             setFragment(ProfileFragment(), "Profile")
+        } else if (whichFragment.equals("Help")){
+            setFragment(HelpFragment(), "Help")
         } else if (whichFragment.equals("PassDetails")){
             detailName = intent.getStringExtra("name").toString()
             detailId = intent.getStringExtra("id").toString()
@@ -42,7 +50,6 @@ class Other : AppCompatActivity() {
             detailKey = intent.getStringExtra("password_child_key").toString()
             detailCategory = intent.getStringExtra("category").toString()
             logoIndex = intent.getStringExtra("logoIndex").toString()
-
             setFragment(PasswordDetailsFragment(), "Back")
         }
 
@@ -76,6 +83,7 @@ class Other : AppCompatActivity() {
         val allPassList: MutableList<PassData> = mutableListOf()
         val allPassKey: MutableList<String> = mutableListOf()
         val allCategory: MutableList<String> = mutableListOf()
+        lateinit var pro: ProgressBar
 
 
     }
